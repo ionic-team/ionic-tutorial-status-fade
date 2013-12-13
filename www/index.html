@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ionic Seed</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- ionic css -->
+    <link href="css/ionic.css" rel="stylesheet">
+
+    <!-- your app's css -->
+    <link href="css/app.css" rel="stylesheet">
+
+    <!-- ionic/angularjs scripts -->
+    <script src="js/ionic.js"></script>
+    <script src="js/angular/angular.js"></script>
+    <script src="js/angular/angular-animate.js"></script>
+    <script src="js/angular/angular-route.js"></script>
+    <script src="js/angular/angular-touch.js"></script>
+    <script src="js/angular/angular-sanitize.js"></script>
+    <script src="js/ionic-angular.js"></script>
+
+    <!-- cordova script -->
+    <script src="cordova.js"></script>
+
+    <style>
+      .fade-bar {
+        height: 20px;
+        width: 100%;
+        position: fixed;
+        z-index: 9999;
+        opacity: 0;
+        background-color: #000;
+      }
+    </style>
+  </head>
+
+  <!-- 'starter' is the name of this angular module (js/app.js)-->
+  <body ng-app="starter">
+    <div ng-controller="MenuCtrl">
+      <side-menus>
+        <fade-bar></fade-bar>
+        <pane side-menu-content>
+          <header class="bar bar-header bar-positive">
+            <button class="button button-icon" ng-click="openLeft()"><i class="icon ion-navicon"></i></button>
+            <h1 class="title">Slide me</h1>
+          </header>
+          <content has-header="true" padded="true">
+
+            <div class="list card">
+
+              <div class="item item-avatar">
+                <img src="http://ionicframework.com/img/docs/mcfly.jpg">
+                <h2>Marty McFly</h2>
+                <p>November 05, 1955</p>
+              </div>
+
+              <div class="item item-body">
+                <img class="full-image" src="http://ionicframework.com/img/docs/delorean.jpg">
+                <p>
+                  This is a "Facebook" styled Card. The header is created from a Thumbnail List item,
+                  the content is from a card-body consisting of an image and paragraph text. The footer
+                  consists of a Tab Bar, icons aligned left, within the card-footer.
+                </p>
+                <p>
+                  <a href="#" class="subdued">1 Like</a>
+                  <a href="#" class="subdued">5 Comments</a>
+                </p>
+              </div>
+
+              <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="#">
+                  <i class="icon ion-thumbsup"></i>
+                  Like
+                </a>
+                <a class="tab-item" href="#">
+                  <i class="icon ion-chatbox"></i>
+                  Comment
+                </a>
+                <a class="tab-item" href="#">
+                  <i class="icon ion-share"></i>
+                  Share
+                </a>
+              </div>
+
+            </div>
+          </content>
+        </pane>
+        <side-menu side="left">
+          <header class="bar bar-header bar-dark" fade-header>
+            <h1 class="title">Left</h1>
+          </header>
+          <content has-header="true">
+            <ul class="list">
+              <a href="#" class="item" ng-repeat="item in list">
+                {{item.text}}
+              </a>
+            </ul>
+          </content>
+        </side-menu>
+        <side-menu side="right">
+          <header class="bar bar-header bar-assertive">
+            <h1 class="title">Right</h1>
+          </header>
+          <content>
+            <ul class="list">
+              <a href="#" class="item" ng-repeat="item in list">
+                {{item.text}}
+              </a>
+            </ul>
+          </content>
+        </side-menu>
+      </side-menus>
+    </div>
+    <script>
+      angular.module('starter', ['ionic'])
+
+      .controller('MenuCtrl', function($scope) {
+        $scope.list = [];
+        for(var i = 0; i < 20; i++) {
+          $scope.list.push({
+            text: 'Item ' + i
+          });
+        }
+        $scope.openLeft = function() {
+          $scope.sideMenuController.toggleLeft();
+        };
+      })
+
+      .directive('fadeBar', function($timeout) {
+        return {
+          restrict: 'E',
+          template: '<div class="fade-bar"></div>',
+          replace: true,
+          link: function($scope, $element, $attr) {
+            $timeout(function() {
+              $scope.$watch('sideMenuController.getOpenRatio()', function(v) {
+                ratio = $scope.sideMenuController.getOpenRatio();
+                console.log(ratio);
+                $element[0].style.opacity = Math.abs(ratio);
+              });
+            });
+          }
+        }
+      })
+
+      .directive('fadeHeader', function($timeout) {
+        return {
+          restrict: 'A',
+          link: function($scope, $element, $attr) {
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
+
