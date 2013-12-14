@@ -134,20 +134,10 @@
           replace: true,
           link: function($scope, $element, $attr) {
             $timeout(function() {
-              $scope.$watch('sideMenuController.getOpenRatio()', function(v) {
-                ratio = $scope.sideMenuController.getOpenRatio();
-                console.log(ratio);
+              $scope.$watch('sideMenuController.getOpenRatio()', function(ratio) {
                 $element[0].style.opacity = Math.abs(ratio);
               });
             });
-          }
-        }
-      })
-
-      .directive('fadeHeader', function($timeout) {
-        return {
-          restrict: 'A',
-          link: function($scope, $element, $attr) {
           }
         }
       });
